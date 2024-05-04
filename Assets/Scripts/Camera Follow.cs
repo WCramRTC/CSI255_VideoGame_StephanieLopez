@@ -6,20 +6,21 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
-    public Vector3 offset;
+    public Vector3 offset; // Coordinates of camera
 
     // Start is called before the first frame update
     void Start()
     {
-
+    
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate() //It is under LateUpdate instead of update to ensure that when the player moves the position is applied in frames. 
     {
         if (target != null)
         {
-            Vector3 desiredPosition = new Vector3(target.position.x + offset.x, target.position.y + offset.y, transform.position.z);
+            Vector3 desiredPosition = new Vector3(target.position.x + offset.x, transform.position.y, transform.position.z);
+
             transform.position = desiredPosition;
         }
     }
