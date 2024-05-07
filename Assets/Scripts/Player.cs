@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     public float movementX;
     public bool isGrounded = false; // Tracks whether the player is grounded
 
-
     // Update is called once per frame
     void Update()
     {
@@ -24,17 +23,20 @@ public class Player : MonoBehaviour
         PlayerMovement();
     }
 
-    public void OnCollisionEnter2D(Collision2D other) {
+    public void OnCollisonEnter2D(Collision2D other)
+    {
         Debug.Log(LayerMask.LayerToName(other.gameObject.layer));
- 
-        if(other.gameObject.layer == 7) {
+        if(other.gameObject.layer == 6)
+        {
             isGrounded = true;
         }
     }
 
-    public void OnCollisionExit2D(Collision2D other) {
-        if(other.gameObject.layer == 7) {
-            isGrounded = false;
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.layer == 6)
+        {
+            isGrounded = true;
         }
     }
 
