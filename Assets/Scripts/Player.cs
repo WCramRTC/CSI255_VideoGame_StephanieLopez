@@ -9,28 +9,33 @@ public class Player : MonoBehaviour
     public bool PlayerFacingRight = true;
     public int JumpDistance = 150;
     public float movementX;
+    public bool isGrounded = false; // Tracks whether the player is grounded
 
-    private bool canJump = true; // Follows if player may jump
-    private bool isGrounded = false; // Tracks whether the player is grounded
 
     // Update is called once per frame
     void Update()
     {
-        // Check if the player is grounded using raycasting
-        // raycasting may be used for collision detection orobject interaction.
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, LayerMask.GetMask("Ground"));
-
-        // If the raycast hits an object with a BoxCollider2D underneath the player, allow jumping
-        isGrounded = hit.collider != null;
-
         // Allow the player to jump only when grounded and canJump is true
-        if (isGrounded && canJump && Input.GetButtonDown("Jump"))
+        if (isGrounded && Input.GetButtonDown("Jump"))
         {
             Jump();
-            canJump = false; // Created canJump to prevent double jumping
         }
 
         PlayerMovement();
+    }
+
+    public void OnCollisionEnter2D(Collision2D other) {
+        Debug.Log(LayerMask.LayerToName(other.gameObject.layer));
+ 
+        if(other.gameObject.layer == 7) {
+            isGrounded = true;
+        }
+    }
+
+    public void OnCollisionExit2D(Collision2D other) {
+        if(other.gameObject.layer == 7) {
+            isGrounded = false;
+        }
     }
 
     void PlayerMovement()
